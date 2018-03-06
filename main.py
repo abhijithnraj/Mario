@@ -1,3 +1,6 @@
+#MAIN FILE
+
+
 #-----------importing the required modules --------------------#
 from pygame.locals import *
 import sys
