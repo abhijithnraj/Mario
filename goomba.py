@@ -1,44 +1,13 @@
 #-----------importing the required modules --------------------#
-from pygame.locals import *
-import sys
 from functions import * #self created module for cutting function
 import pygame
 import random
 #----------------------------------------------------------------#
 
-#--------setting up the global variables----------#
 WIDTH,HEIGHT=1000,1000
-surface=pygame.display.set_mode((WIDTH,HEIGHT),DOUBLEBUF)
-#creating the background ********very important******** to mention the pygame.SRCAPLHA here to avoid background color for sprites
-background=pygame.Surface((WIDTH,HEIGHT),pygame.SRCALPHA,32)
-#adding background image to the game
-background_image=pygame.image.load("images/background.png")
-background_image=pygame.transform.scale(background_image,(WIDTH,HEIGHT  ))
-
-
-#cutting the sprites to the row major order that will return an array 9*6
-images=cut_image("images/goomba.png",n_x=9,n_y=6,position=2)
-print(images.shape)
-
-#setting up frames per second and clock
-clock=pygame.time.Clock()
-FPS=60
-#--------------------------------------------------#
-
-
-
-#-------------------groups------------------------#
-enemy_group=pygame.sprite.Group()
-goomba_group=pygame.sprite.Group()
-all_sprites=pygame.sprite.Group()
-#--------------------------------------------------#
-
-
-
-
 #-----------------class definition of enemy goomba groups(all_sprites,enemy_group,goomba_group----------#
 class goomba(pygame.sprite.Sprite):
-    def __init__(self,x,y,group):
+    def __init__(self,x,y,group,velocity):
         super(goomba,self).__init__()
         self.index=0
         self.default_image=images[0][6]
@@ -47,7 +16,7 @@ class goomba(pygame.sprite.Sprite):
         self.rect.center=(x,y)
         self.add(group)
         self.jump=False
-        self.velocity=3
+        self.velocity=velocity
         self.jump_velocity=0
         self.jump_counter=0
     #the update function will make the goomba dance around the screen (randomly for now)
@@ -87,28 +56,25 @@ class goomba(pygame.sprite.Sprite):
 
 #----------------------------------------------------------------------------------------------------------#
 
+#-------------------groups------------------------#
+enemy_group=pygame.sprite.Group()
+goomba_group=pygame.sprite.Group()
+all_sprites=pygame.sprite.Group()
+#--------------------------------------------------#
 
+#cutting the sprites to the row major order that will return an array 9*6
+images=cut_image("images/goomba.png",n_x=9,n_y=6,position=2)
 
-#----------------------creating the instances of the classes----------------------------------------------#
-g=goomba(100,HEIGHT-160,[enemy_group,goomba_group,all_sprites])                      # $(later there will be several instances here)
-
+#----------------------function to create goomba instances----------------------------------------------#
+def create_goombas(n_goombas):
+    list_goombas=[]
+    for i in range(n_goombas):
+        x=random.randint(20,WIDTH-20)
+        velocity=random.randint(1,7)
+        g=goomba(x=x,y=HEIGHT-160,group=[enemy_group,goomba_group,all_sprites],velocity=velocity)                      # $(later there will be several instances here)1
+        list_goombas.append(g)
+    return list_goombas
 #---------------------------------------------------------------------------------------------------------#
 
 
 
-#----------------------------------The event loop------------------------------------------------#
-
-#the while loop will continously check the event changes and update the frame
-while True:                                                                            # $(later instead of infinite loop add until game not over)
-    for event in pygame.event.get():
-        if event.type==QUIT:
-            pygame.quit()
-            sys.exit()
-    surface.blit(background_image, dest=(0, 0), area=(0, 0, WIDTH, HEIGHT))
-    all_sprites.clear(surface, background)
-    all_sprites.update()
-    all_sprites.draw(surface)
-    pygame.display.update()
-    clock.tick(FPS)
-
-#---------------------------------------------------------------------------------------------------#
