@@ -1,10 +1,13 @@
 #-----------importing the required modules --------------------#
 from functions import * #self created module for cutting function
 import pygame
+from pygame.locals import *
 import random
 #----------------------------------------------------------------#
 
 WIDTH,HEIGHT=1000,1000
+pygame.display.init()
+pygame.display.set_mode((WIDTH,HEIGHT),DOUBLEBUF)
 #-----------------class definition of enemy goomba groups(all_sprites,enemy_group,goomba_group----------#
 class goomba(pygame.sprite.Sprite):
     def __init__(self,x,y,group,velocity):
