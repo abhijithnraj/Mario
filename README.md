@@ -20,6 +20,13 @@ Read more about installing pip here: https://www.makeuseof.com/tag/install-pip-f
 
 <br>
 
+## DEMO: 
+<p align="center">
+    <img src="https://cdn.rawgit.com/junaidrahim/Mario/206ae71a/images/record.svg">
+</p>
+
+<br>
+
 ## Screenshot :
 ![Screenshot](https://user-images.githubusercontent.com/23445617/46251862-b6671d80-c47c-11e8-9226-7bb19f376c32.png)
 
